@@ -1,8 +1,8 @@
 <template>
   <div class="home">
     <h1>Select and show a component</h1>
-    <TabMenu :data="componentsList" @show-component="showComponent" />
-    <div>
+    <TabMenu :data="componentsList"/>
+    <div class="main-container">
       <router-view />
     </div>
   </div>
@@ -17,15 +17,10 @@ export default {
   components: {
     TabMenu,
   },
-  data() {
+  setup() {
     return {
       componentsList,
     };
-  },
-  methods: {
-    showComponent(name) {
-      this.$router.push({ path: `/home/${name}` });
-    },
   },
 };
 </script>
@@ -33,5 +28,10 @@ export default {
 <style lang="scss">
 @import '@/scss/app.scss';
 @import '@/scss/variables.scss';
+
+.main-container {
+  margin-top: 5em;
+  margin-inline: 10em;
+}
 
 </style>

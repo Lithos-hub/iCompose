@@ -1,31 +1,26 @@
 <template>
   <div class="menu__list-wrapper">
     <ul class="menu__list">
-      <li
+      <router-link
         v-for="(item, i) in data"
         :key="i"
         class="menu__list-item"
-        @click="showComponent(item.path)"
+        active-class="menu__list-active"
+        :to="{ path: item.path }"
       >
         {{ item.title }}
-      </li>
+      </router-link>
     </ul>
   </div>
 </template>
 
 <script>
 export default {
+  name: 'tab-menu',
   props: {
     data: {
       type: Array,
       default: () => [],
-    },
-  },
-  name: 'tab-menu',
-  methods: {
-    showComponent(path) {
-      console.log(path);
-      this.$emit('show-component', path);
     },
   },
 };
@@ -60,6 +55,7 @@ export default {
   box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.527), 0px 2px 10px #30303080;
 
   .menu__list-item {
+    text-decoration: none ;
     transition: all 0.1s ease-in;
     cursor: pointer;
     color: $secondary;
@@ -89,5 +85,10 @@ export default {
       background: #303030;
     }
   }
+}
+
+.menu__list-active {
+  background: $secondary;
+  color: white !important;
 }
 </style>

@@ -6,6 +6,7 @@ const routes = [
     path: '/home',
     name: 'Home',
     component: Home,
+    props: true,
     children: [
       {
         path: '/spreadSheet',
@@ -14,17 +15,17 @@ const routes = [
       },
       {
         path: '/dataTable',
-        name: 'SpreadSheet',
+        name: 'Data Table',
         component: () => import('../components/DataTable.vue'),
       },
       {
         path: '/card',
-        name: 'SpreadSheet',
+        name: 'Card',
         component: () => import('../components/Card.vue'),
       },
       {
         path: '/smartForm',
-        name: 'SpreadSheet',
+        name: 'SmartForm',
         component: () => import('../components/SmartForm.vue'),
       },
     ],
