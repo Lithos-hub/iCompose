@@ -1,18 +1,37 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h1>Select and show a component</h1>
+    <TabMenu :data="componentsList" @show-component="showComponent" />
+    <div>
+      <router-view />
+    </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue';
+import componentsList from '../api/componentsList';
+import TabMenu from '../components/TabMenu.vue';
 
 export default {
   name: 'Home',
   components: {
-    HelloWorld,
+    TabMenu,
+  },
+  data() {
+    return {
+      componentsList,
+    };
+  },
+  methods: {
+    showComponent(name) {
+      this.$router.push({ path: `/home/${name}` });
+    },
   },
 };
 </script>
+
+<style lang="scss">
+@import '@/scss/app.scss';
+@import '@/scss/variables.scss';
+
+</style>

@@ -1,4 +1,4 @@
-# icompose
+# iCompose
 
 ## Project setup
 ```
