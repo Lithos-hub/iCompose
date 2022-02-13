@@ -1,6 +1,6 @@
 <template>
 <div class="app-wrapper">
-  <Navbar />
+  <Navbar v-if="this.$route.path !== '/'" />
   <router-view />
 </div>
 </template>
@@ -51,4 +51,25 @@ export default {
   text-align: center;
   color: $primary;
 }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: $secondary;
+    border-radius: 50px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #303030;
+    border-radius: 0px 0px 0px 50px;
+  }
+
+  ::-webkit-scrollbar-corner {
+    background: #303030;
+    border-radius: 0px 0px 50px 0px;
+  }
+
 </style>

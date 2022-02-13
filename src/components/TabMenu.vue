@@ -82,7 +82,7 @@ export default {
       color: $primary;
       border-bottom: 3px solid $secondary;
       padding-bottom: 3px;
-      background: #303030;
+      background: $twilight;
     }
   }
 }

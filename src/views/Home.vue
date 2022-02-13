@@ -31,7 +31,7 @@ export default {
 
 .main-container {
   margin-top: 5em;
-  margin-inline: 10em;
+  margin-inline: 5em;
 }
 
 </style>

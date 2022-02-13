@@ -8,3 +8,18 @@
 .mx-auto {
     margin-inline: auto;
 }
+
+
+// * Animations * //
+
+@keyframes pulse {
+    0% {
+        background: #ffffff;
+    }
+    50% {
+        background: #dedbff;
+    }
+    100% {
+        background: #ffffff;
+    }
+}
