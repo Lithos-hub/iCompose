@@ -2,13 +2,16 @@
   <div class="home">
     <h1>Select and show a component</h1>
     <TabMenu :data="componentsList"/>
-    <div class="main-container">
+    <p class="centered" v-if="loading">Loading component...</p>
+    <div class="main-container" else>
       <router-view />
     </div>
   </div>
 </template>
 
 <script>
+import { computed } from 'vue';
+import { useStore } from 'vuex';
 import componentsList from '../api/componentsList';
 import TabMenu from '../components/TabMenu.vue';
 
@@ -18,8 +21,11 @@ export default {
     TabMenu,
   },
   setup() {
+    const store = useStore();
+    const loading = computed(() => store.state.loading);
     return {
       componentsList,
+      loading,
     };
   },
 };

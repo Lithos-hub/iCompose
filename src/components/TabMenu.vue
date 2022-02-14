@@ -15,6 +15,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'tab-menu',
   props: {
@@ -55,7 +56,7 @@ export default {
   box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.527), 0px 2px 10px #30303080;
 
   .menu__list-item {
-    text-decoration: none ;
+    text-decoration: none;
     transition: all 0.1s ease-in;
     cursor: pointer;
     color: $secondary;
