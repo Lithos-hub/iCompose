@@ -2,7 +2,7 @@ const componentsList = [
   {
     id: 1,
     title: 'Spreadsheet Table',
-    path: 'spreadSheet',
+    path: 'spreadsheet',
   },
   {
     id: 2,

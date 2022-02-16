@@ -1,3 +1,7 @@
+@import './variables.scss';
+
+// * Position * //
+
 .centered {
     position: absolute;
     top: 50%;
@@ -9,6 +13,99 @@
     margin-inline: auto;
 }
 
+.text-center {
+    text-align: center;
+}
+
+// * Flex * //
+
+.row {
+    padding: 10px;
+    display: flex;
+}
+
+.col {
+    margin-inline: 10px;
+    width: 50%;
+}
+
+// * Font * //
+
+.text-h1 {
+    font-size: 3.5em;
+}
+.text-h2 {
+    font-size: 3em;
+}
+.text-h3 {
+    font-size: 2.5em;
+}
+.text-h4 {
+    font-size: 2em;
+}
+.text-h5 {
+    font-size: 1.5em;
+}
+.text-h6 {
+    font-size: 1.2em;
+}
+
+// * inputs * //
+
+button, .btn {
+    cursor: pointer;
+}
+
+.slide__wrapper {
+    position: relative;
+    max-height: 16px;
+    max-width: 30px;
+    cursor: pointer;
+    .switcher {
+        opacity: 0;
+    }
+
+    .slide__label {
+        position: absolute;
+        font-size: 10px;
+        color: $secondary;
+        left: 4em;
+    }
+
+    .slide__track {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        height: 8px;
+        border-radius: 5px;
+        width: 30px;
+    }
+    .slide__thumb {
+        transition: all .3s ease-out;
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        height: 15px;
+        width: 15px;
+        border-radius: 50%;
+    }
+    .slide__track--inactive {
+        background: #cbbaff;
+    }
+    .slide__thumb--inactive {
+        background: #8e7ac4;
+        left: 20%;
+    }
+    .slide__track--active {
+        background: #2c00a5;
+    }
+    .slide__thumb--active {
+        left: 80%;
+        background: $secondary;
+    }
+    
+}
 
 // * Animations * //
 
@@ -18,5 +115,27 @@
     }
     100% {
         background: #dedbff;
+    }
+}
+
+@keyframes grow {
+    0% {
+        opacity: 0;
+        transform: scale(0);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes decrease {
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    0% {
+        opacity: 0;
+        transform: scale(0);
     }
 }

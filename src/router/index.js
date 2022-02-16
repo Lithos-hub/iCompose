@@ -14,9 +14,9 @@ const routes = [
     props: true,
     children: [
       {
-        path: '/spreadSheet',
-        name: 'SpreadSheet',
-        component: () => import('../components/SpreadSheet.vue'),
+        path: '/spreadsheet',
+        name: 'Spreadsheet',
+        component: () => import('../components/Spreadsheet.vue'),
       },
       {
         path: '/dataTable',

@@ -1,9 +1,10 @@
 <template>
   <div class="table__spreadsheet-wrap">
+    <DialogOptions v-if="isShowingOptions" @close-dialog="hide" />
     <table class="mx-auto">
       <thead class="table__spreadsheet-header">
         <tr>
-          <th class="table__spreadsheet-header--showOptions" @click="showOptions">
+          <th class="table__spreadsheet-header--showOptions" @click="show">
             <mdicon name="cog" />
           </th>
           <th
@@ -37,10 +38,13 @@
 </template>
 
 <script setup>
+import DialogOptions from '@/components/Dialog-Options.vue';
 import { onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
+import useDialog from '../composables/useDialog';
 
 const store = useStore();
+const { isShowingOptions, show, hide } = useDialog();
 store.commit('setLoading', true);
 
 const numHeaders = ref(30);
@@ -84,7 +88,7 @@ const listenMouseSelectable = () => {
       top: `${rect.top + window.scrollY}px`,
     };
   }
-  const table = document.querySelector('TABLE');
+  const table = document.querySelector('tbody');
   let initialCell = '';
   let finalCell = '';
 
@@ -185,7 +189,7 @@ const selectColumn = (index) => {
   const COL_HTML = document.querySelectorAll(`.cell__col-${zeroPad(index + 1, 2)}`);
   COL_HTML.forEach((col) => {
     colToSelect = col;
-    colToSelect.classList.toggle('table__spreadsheet--active-col');
+    colToSelect.classList.toggle('cell-selection');
   });
 };
 
@@ -210,9 +214,6 @@ const generateAlphabet = () => {
 
 const alphabet = ref(generateAlphabet());
 
-const showOptions = () => {
-  console.log('Showing options...');
-};
 const downloadExcel = () => {
   console.log('Downloading...');
 };
