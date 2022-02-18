@@ -1,0 +1,29 @@
+@import './variables.scss';
+
+// * Gradients * //
+.gradient--primary {
+    background: linear-gradient(120deg, #074547, #042249);
+}
+.gradient--secondary {
+    background: linear-gradient(120deg, #071847, #2a0449);
+}
+
+// * Background * //
+.primary {
+    background: $primary;
+}
+
+.secondary {
+    background: $secondary;
+}
+
+// * Font color * //
+.text--primary {
+    color: $primary;
+}
+
+.text--secondary {
+    color: $secondary;
+}
+
+

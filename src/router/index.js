@@ -16,7 +16,7 @@ const routes = [
       {
         path: '/spreadsheet',
         name: 'Spreadsheet',
-        component: () => import('../components/Spreadsheet.vue'),
+        component: () => import('../views/Home-Spreadsheet.vue'),
       },
       {
         path: '/dataTable',

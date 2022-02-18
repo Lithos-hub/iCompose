@@ -60,6 +60,10 @@ export default {
   ::-webkit-scrollbar-thumb {
     background: $secondary;
     border-radius: 50px;
+
+    &:hover {
+      background: #8c7fff;
+    }
   }
 
   ::-webkit-scrollbar-track {

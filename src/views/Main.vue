@@ -2,7 +2,7 @@
   <div>
     <div class="centered">
       <router-link :to="'/home'">
-        <button class="button__main">Enter</button>
+        <button class="btn button__main">Enter</button>
       </router-link>
     </div>
   </div>
@@ -17,7 +17,6 @@ export default {};
 @import "@/scss/variables.scss";
 
 .button__main {
-  cursor: pointer;
   padding-block: 10px;
   border-radius: 5px;
   height: auto;

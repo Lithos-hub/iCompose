@@ -4,30 +4,39 @@
     <table class="mx-auto">
       <thead class="table__spreadsheet-header">
         <tr>
-          <th class="table__spreadsheet-header--showOptions" @click="show">
+          <th class="clickable" @click="showOptions">
+            <div class="table__spreadsheet-header--actions table__spreadsheet-header--showOptions">
             <mdicon name="cog" />
+            </div>
           </th>
           <th
             v-for="(char, index) in alphabet"
             :key="index"
-            class="table__spreadsheet-header--alphabet"
-            @click="selectColumn(index)"
+            class="table__spreadsheet-header--alphabet clickable"
+            @click="selectColumn(index + 1)"
           >
             {{ char }}
           </th>
         </tr>
         <tr>
-          <th class="table__spreadsheet-header--download" @click="downloadExcel">
+          <th class="clickable" @click="downloadExcel">
+            <div class="table__spreadsheet-header--actions table__spreadsheet-header--download">
             <mdicon name="file-excel" />
+            </div>
           </th>
-          <th v-for="(i, index) in numHeaders" :key="'A' + index">HEAD {{ index + 1 }}</th>
+          <th :class="isUsingSorting ? 'table__spreadsheet-header--field clickable' : ''" v-for="(head, i) in headers" :key="'A' + i" @click="isUsingSorting ? sortAscDescData(head) : null">
+            <input v-if="isUsingFiltering" class="table__spreadsheet-header--input" v-model="filterInput[head]" :placeholder="head" @input="filterData(head, filterInput[head])" />
+              <SpreadsheetDynHead v-else :head="head" />
+            <span v-if="isUsingSorting && sortAscen[head] === true || sortAscen[head] === false"><mdicon v-if="sortAscen[head]" name="chevron-up" /><mdicon v-else name="chevron-down" /></span>
+          </th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(i, rowIndex) in numRows" :key="'B' + rowIndex">
-          <td class="table__spreadsheet-index" @click="selectRow(i)">{{ i }}</td>
-          <td v-for="(i, colIndex) in numCells" :key="'C' + colIndex">
+        <tr v-for="(item, rowIndex) in data" :key="'B' + rowIndex">
+          <td class="table__spreadsheet-index" @click="selectRow(rowIndex + 1)">{{ rowIndex + 1 }}</td>
+          <td v-for="(head, colIndex) in headers" :key="'C' + colIndex">
             <input
+              v-model="item[head]"
               :class="`cell__col-${zeroPad(colIndex + 1, 2)} cell__row-${zeroPad(rowIndex + 1, 2)}`"
             />
           </td>
@@ -39,17 +48,59 @@
 
 <script setup>
 import DialogOptions from '@/components/Dialog-Options.vue';
-import { onMounted, ref } from 'vue';
-import { useStore } from 'vuex';
+import SpreadsheetDynHead from '@/components/Spreadsheet-DynHead.vue';
+
+import {
+  onMounted, ref, defineProps, reactive,
+} from 'vue';
+import * as XLSX from 'xlsx/xlsx';
+import mapState from '../store/mapState';
 import useDialog from '../composables/useDialog';
+import useTable from '../composables/useTable';
 
-const store = useStore();
-const { isShowingOptions, show, hide } = useDialog();
-store.commit('setLoading', true);
+const {
+  isUsingSimpleRow,
+  isUsingSimpleCol,
+  isUsingFiltering,
+  isUsingSorting,
+} = mapState();
 
-const numHeaders = ref(30);
-const numRows = ref(20);
-const numCells = ref(30);
+const props = defineProps({
+  data: Array,
+  headers: Array,
+});
+
+const { isShowingOptions, showOptions, hide } = useDialog();
+const { sortData, filterByInput } = useTable();
+
+const sortAscen = reactive({});
+const filterInput = reactive({});
+const isAscending = ref(true);
+const multipleSelectedRows = reactive([]);
+const multipleselectedCols = reactive([]);
+
+const data = ref(props.data);
+const headers = reactive(props.headers);
+
+const sortAscDescData = async (head) => {
+  sortAscen[head] = isAscending.value;
+  const dataToSort = data.value;
+  data.value = await sortData(dataToSort, head, sortAscen[head]);
+  isAscending.value = !isAscending.value;
+};
+
+const filterData = async (head, value) => {
+  filterInput[head] = value;
+  const input = filterInput[head];
+  if (!input) {
+    data.value = props.data;
+  }
+  const dataToFilter = data.value;
+  setTimeout(async () => {
+    const result = await filterByInput(dataToFilter, head, input);
+    data.value = result;
+  }, 150);
+};
 
 let initialCol = 0;
 let initialRow = 0;
@@ -80,6 +131,11 @@ const listenCopyPaste = () => {
   });
 };
 
+const cleanSelections = () => {
+  const selectedCellsHTML = document.querySelectorAll('.cell-selection');
+  selectedCellsHTML.forEach((cell) => cell.classList.remove('cell-selection'));
+};
+
 const listenMouseSelectable = () => {
   function getOffset(el) {
     const rect = el.getBoundingClientRect();
@@ -93,56 +149,41 @@ const listenMouseSelectable = () => {
   let finalCell = '';
 
   table.addEventListener('mousedown', ({ target }) => {
-    // ? Clean process ? //
-    initialCell = '';
-    finalCell = '';
-    const allInputsHTML = document.querySelectorAll('input');
-
-    allInputsHTML.forEach((input) => {
-      if (input.classList.contains('cell-selection')) {
-        input.classList.remove('cell-selection');
+    if (target.tagName === 'INPUT') {
+      // ? Clean process ? //
+      initialCell = '';
+      finalCell = '';
+      cleanSelections();
+      // ? End clean process ? //
+      // ? Selection area creation ? //
+      const div = document.createElement('div');
+      table.appendChild(div);
+      div.classList.add('drag-div');
+      const dragDiv = document.querySelector('.drag-div');
+      dragDiv.style.position = 'fixed';
+      dragDiv.style.background = 'transparent';
+      dragDiv.style.top = getOffset(target).top;
+      dragDiv.style.left = getOffset(target).left;
+      // ? End selection area creation ? //
+      // ? First cell selected assignation ? //
+      if (target.className.includes('cell__col')) {
+        initialCell = target.className;
+        finalCell = target.className;
       }
-    });
+      // ? End first cell selected assignation ? //
 
-    const activeRows = document.querySelectorAll('.table__spreadsheet--active-row');
-    activeRows.forEach((element) => {
-      const elementToProcess = element;
-      elementToProcess.classList.remove('table__spreadsheet--active-row');
-    });
-    const activeCols = document.querySelectorAll('.table__spreadsheet--active-col');
-    activeCols.forEach((element) => {
-      const elementToProcess = element;
-      elementToProcess.classList.remove('table__spreadsheet--active-col');
-    });
-    // ? End clean process ? //
-    // ? Selection area creation ? //
-    const div = document.createElement('div');
-    table.appendChild(div);
-    div.classList.add('drag-div');
-    const dragDiv = document.querySelector('.drag-div');
-    dragDiv.style.position = 'fixed';
-    dragDiv.style.background = 'transparent';
-    dragDiv.style.top = getOffset(target).top;
-    dragDiv.style.left = getOffset(target).left;
-    // ? End selection area creation ? //
-    // ? First cell selected assignation ? //
-    if (target.className.includes('cell__col')) {
-      initialCell = target.className;
-      finalCell = target.className;
-    }
-    // ? End first cell selected assignation ? //
-
-    table.addEventListener('mousemove', (event) => {
+      table.addEventListener('mousemove', (event) => {
       // ? Selection area drawing when mouseover ? //
-      table.style.cursor = 'pointer';
-      dragDiv.style.border = '2px dashed #5340ff';
-      dragDiv.style.width = `${(event.clientX) - dragDiv.offsetLeft}px`;
-      dragDiv.style.height = `${(event.clientY) - dragDiv.offsetTop}px`;
-      if (event.target.className.includes('cell__col')) {
-        finalCell = event.target.className;
-      }
-    });
+        table.style.cursor = 'pointer';
+        dragDiv.style.border = '2px dashed #5340ff';
+        dragDiv.style.width = `${(event.clientX) - dragDiv.offsetLeft}px`;
+        dragDiv.style.height = `${(event.clientY) - dragDiv.offsetTop}px`;
+        if (event.target.className.includes('cell__col')) {
+          finalCell = event.target.className;
+        }
+      });
     // ? End selection area drawing when mouseover ? //
+    }
   });
 
   // ? When mouse up => we remove selection area and select the cells ? //
@@ -173,31 +214,72 @@ const listenMouseSelectable = () => {
 };
 
 const selectRow = (index) => {
-  const ROW_HTML = document.querySelectorAll(`.cell__row-${zeroPad(index, 2)}`);
-  ROW_HTML.forEach((row) => {
-    const rowToSelect = row;
-    if (rowToSelect.classList.contains('cell-selection')) {
-      rowToSelect.classList.remove('cell-selection');
+  cleanSelections();
+  const selectedRow = document.querySelectorAll(`.cell__row-${zeroPad(index, 2)}`);
+  if (isUsingSimpleRow.value) {
+    selectedRow.forEach((row) => {
+      row.classList.add('cell-selection');
+    });
+  } else {
+    if (multipleSelectedRows.some((item) => item.index === index)) {
+      multipleSelectedRows.forEach((row) => {
+        if (row.index === index) {
+          row.selectedRow.forEach((item) => {
+            item.classList.remove('cell-selection');
+          });
+          multipleSelectedRows.splice(multipleSelectedRows.indexOf(row), 1);
+        }
+      });
     } else {
-      rowToSelect.classList.add('cell-selection');
+      multipleSelectedRows.push({
+        index,
+        selectedRow,
+      });
     }
-  });
+    multipleSelectedRows.forEach((row) => {
+      row.selectedRow.forEach((item) => {
+        item.classList.add('cell-selection');
+      });
+    });
+  }
 };
 
 const selectColumn = (index) => {
-  let colToSelect;
-  const COL_HTML = document.querySelectorAll(`.cell__col-${zeroPad(index + 1, 2)}`);
-  COL_HTML.forEach((col) => {
-    colToSelect = col;
-    colToSelect.classList.toggle('cell-selection');
-  });
+  cleanSelections();
+  const selectedCol = document.querySelectorAll(`.cell__col-${zeroPad(index, 2)}`);
+  if (isUsingSimpleCol.value) {
+    selectedCol.forEach((col) => {
+      col.classList.add('cell-selection');
+    });
+  } else {
+    if (multipleselectedCols.some((item) => item.index === index)) {
+      multipleselectedCols.forEach((col) => {
+        if (col.index === index) {
+          col.selectedCol.forEach((item) => {
+            item.classList.remove('cell-selection');
+          });
+          multipleselectedCols.splice(multipleselectedCols.indexOf(col), 1);
+        }
+      });
+    } else {
+      multipleselectedCols.push({
+        index,
+        selectedCol,
+      });
+    }
+    multipleselectedCols.forEach((col) => {
+      col.selectedCol.forEach((item) => {
+        item.classList.add('cell-selection');
+      });
+    });
+  }
 };
 
 const generateAlphabet = () => {
   const alpha = [];
   const alphabetChars = ('ABCDEFGHIJKLMNOPQRSTUVWXYZ').split('');
   let counterLoop = 0;
-  const numLoops = Math.floor(numHeaders.value / 26);
+  const numLoops = Math.floor(props.headers.length / 26);
 
   alphabetChars.forEach((char, index) => {
     alpha.push(char);
@@ -209,18 +291,33 @@ const generateAlphabet = () => {
       counterLoop += 1;
     }
   });
-  return alpha.slice(0, numHeaders.value);
+  return alpha.slice(0, props.headers.length);
 };
 
 const alphabet = ref(generateAlphabet());
 
 const downloadExcel = () => {
-  console.log('Downloading...');
+  const columns = headers.map((head) => head);
+  const rows = [];
+  const matrix = [];
+
+  data.value.forEach((el) => {
+    rows.push(Object.values(el));
+  });
+  matrix.push(columns);
+  matrix.push(...rows);
+  const ws = XLSX.utils.aoa_to_sheet(matrix);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Spreadsheet');
+  /* generate file and send to client */
+  const date = new Date();
+  const today = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+  XLSX.writeFile(wb, `Filename - ${today}.xlsx`);
 };
+
 onMounted(() => {
   listenCopyPaste();
   listenMouseSelectable();
-  store.commit('setLoading', false);
 });
 </script>
 
@@ -268,17 +365,53 @@ td {
   height: 40px;
   border: none;
   padding: 0;
-  max-width: 170px;
+  min-width: 170px;
+  width: 100%;
   border-right: 1px solid $tertiary;
   border-bottom: 1px solid $tertiary;
 }
 
+.table__spreadsheet-header--input {
+  border: none;
+  transition: all .3s ease-out;
+  background: transparent;
+  color: $secondary;
+  caret-color: $secondary;
+  font-size: 16px;
+
+  &:focus {
+    outline: 1px solid $secondary;
+    background: $secondaryDark;
+    caret-color: cyan;
+    color: cyan;
+    border-radius: 2px;
+    outline-width: 1px;
+    outline-offset: 0px;
+  }
+
+  &:not(:focus) {
+    color: cyan;
+  }
+
+  &::placeholder {
+    color: $secondary;
+
+  }
+    &:hover::placeholder {
+      transition: all .3s ease-out;
+      color: white;
+    }
+}
+
+.table__spreadsheet-header--actions {
+  padding: 5px;
+  height: 30px;
+  width: 30px;
+}
+
 .table__spreadsheet-header--showOptions {
   transition: all 0.3s ease-in-out;
-  cursor: pointer;
   color: $secondary;
-  width: auto;
-  height: 40px;
 
   &:hover {
     border-radius: 50px;
@@ -288,10 +421,7 @@ td {
 }
 .table__spreadsheet-header--download {
   transition: all 0.3s ease-in-out;
-  cursor: pointer;
   color: $secondary;
-  width: auto;
-  height: 40px;
 
   &:hover {
     border-radius: 50px;
@@ -300,8 +430,16 @@ td {
   }
 }
 
+.table__spreadsheet-header--field {
+  transition: all .3s ease-out;
+
+  &:hover {
+    color: cyan;
+    background: rgba(56, 51, 100, 0.5);
+  }
+}
+
 .table__spreadsheet-header--alphabet {
-  cursor: pointer;
   transition: all 0.3s ease-out;
 
   &:hover:not(:first-child) {
@@ -310,8 +448,9 @@ td {
   }
 }
 .table__spreadsheet-index {
+  position: sticky;
+  left: 0;
   transition: all 0.3s ease-out;
-  cursor: pointer;
   min-width: 40px;
   height: auto;
   background: $dark;
@@ -328,22 +467,14 @@ td {
   margin: 0;
 }
 
-input:focus {
+input:not(.table__spreadsheet-header--input):focus {
   outline: none;
-  animation: pulse .5s ease-in-out infinite alternate;
-}
-
-.table__spreadsheet--active-row {
-  background: red;
-  animation: pulse .5s ease-in-out infinite alternate;
-}
-
-.table__spreadsheet--active-col {
-  animation: pulse .5s ease-in-out infinite alternate;
+  animation: $pulseAnimation;
 }
 
 .cell-selection {
-  animation: pulse .5s ease-in-out infinite alternate;
+  animation: $pulseAnimation;
+  color: white;
   input {
     color: white;
   }

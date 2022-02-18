@@ -3,7 +3,7 @@ import { ref } from 'vue';
 const useDialog = () => {
   const isShowingOptions = ref(false);
 
-  const show = () => {
+  const showOptions = () => {
     isShowingOptions.value = true;
     let dialog;
     let dialogOverlay;
@@ -33,7 +33,7 @@ const useDialog = () => {
 
   return {
     isShowingOptions,
-    show,
+    showOptions,
     hide,
   };
 };

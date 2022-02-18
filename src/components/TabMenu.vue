@@ -45,7 +45,7 @@ export default {
   min-width: auto;
   max-width: 100%;
   width: auto;
-  border-radius: 30px;
+  border-radius: 5px;
   list-style: none;
   display: flex;
   justify-content: center;
@@ -54,11 +54,11 @@ export default {
   align-items: middle;
   padding: 0;
   box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.527), 0px 2px 10px #30303080;
+  clip-path: polygon(5% 0, 100% 0%, 95% 100%, 0% 100%);
 
   .menu__list-item {
     text-decoration: none;
     transition: all 0.1s ease-in;
-    cursor: pointer;
     color: $secondary;
     font-weight: bold;
     padding: 20px;
@@ -71,12 +71,12 @@ export default {
 
     &:first-child {
       transition: all 0.1s ease-in;
-      border-radius: 25px 0px 0px 25px;
+      border-radius: 5px 0px 0px 5px;
     }
 
     &:last-child {
       transition: all 0.1s ease-in;
-      border-radius: 0px 25px 25px 0px;
+      border-radius: 0px 5px 5px 0px;
     }
 
     &:hover {

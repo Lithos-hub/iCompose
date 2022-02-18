@@ -13,11 +13,59 @@
     margin-inline: auto;
 }
 
+.ml-auto {
+    margin-left: auto;
+}
+
+.mr-auto {
+    margin-right: auto;
+}
+
 .text-center {
     text-align: center;
 }
 
+.maxZindex {
+    z-index: 9999;
+}
+
+.mr-1 {
+    margin-right: 1rem;
+}
+.mr-2 {
+    margin-right: 2rem;
+}
+.mr-3 {
+    margin-right: 3rem;
+}
+.mr-4 {
+    margin-right: 4rem;
+}
+.mr-5 {
+    margin-right: 5rem;
+}
+
+.ml-1 {
+    margin-left: 1rem;
+}
+.ml-2 {
+    margin-left: 2rem;
+}
+.ml-3 {
+    margin-left: 3rem;
+}
+.ml-4 {
+    margin-left: 4rem;
+}
+.ml-5 {
+    margin-left: 5rem;
+}
+
 // * Flex * //
+
+.d-flex {
+    display: flex;
+}
 
 .row {
     padding: 10px;
@@ -52,69 +100,66 @@
 
 // * inputs * //
 
-button, .btn {
+.btn {
     cursor: pointer;
+    position: relative;
+    z-index: 0;
 }
 
-.slide__wrapper {
-    position: relative;
-    max-height: 16px;
-    max-width: 30px;
-    cursor: pointer;
-    .switcher {
+.btn-icon {
+    &::before {
+        transition: all .3s ease-out;
+        content: "";
+        position: absolute;
         opacity: 0;
-    }
-
-    .slide__label {
-        position: absolute;
-        font-size: 10px;
-        color: $secondary;
-        left: 4em;
-    }
-
-    .slide__track {
-        position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        height: 8px;
-        border-radius: 5px;
-        width: 30px;
-    }
-    .slide__thumb {
-        transition: all .3s ease-out;
-        position: absolute;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        height: 15px;
-        width: 15px;
+        height: 40px;
+        width: 40px;
+        z-index: -1;
+        background: #735c7c69;
         border-radius: 50%;
     }
-    .slide__track--inactive {
-        background: #cbbaff;
+    &:hover::before {
+        opacity: 0.8;
     }
-    .slide__thumb--inactive {
-        background: #8e7ac4;
-        left: 20%;
+}
+
+.btn-text {
+    transition: all .3s ease-out;
+    padding-inline: 40px;
+    padding-block: 5px;
+    font-size: 15px;
+    border-radius: 3px;
+    border: none;
+    border: 1px solid $secondary;
+    background: $secondary;
+    color: white;
+
+    &:hover {
+        background: #151515;
+        color: $primary;
+        border: 1px solid $primary;
     }
-    .slide__track--active {
-        background: #2c00a5;
-    }
-    .slide__thumb--active {
-        left: 80%;
-        background: $secondary;
-    }
-    
+}
+
+// * Misce * //
+.clickable {
+    cursor: pointer;
 }
 
 // * Animations * //
 
 @keyframes pulse {
     0% {
-        background: #ffffff;
+        background: $secondary;
+    }
+    50% {
+        background: $secondaryDark;
     }
     100% {
-        background: #dedbff;
+        background: $secondary;
     }
 }
 

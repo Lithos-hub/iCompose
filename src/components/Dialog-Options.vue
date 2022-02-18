@@ -1,50 +1,78 @@
 <template>
   <div class="dialog__overlay">
     <div class="dialog__spreadsheet">
-      <div class="dialog__spreadsheet--title gradient-primary">
+      <div class="dialog__spreadsheet--title gradient--secondary">
         <div>Table options</div>
         <div>
-          <mdicon class="btn" name="close" @click="closeDialog" />
+          <mdicon class="btn btn-icon" name="close" @click="closeDialog" />
         </div>
       </div>
       <div class="dialog__spreadsheet--body">
         <div class="row">
           <div class="col">
-            <div class="text-h6 dialog__spreadsheet-subtitles">Row options</div>
+            <div class="text-h6 dialog__spreadsheet-subtitles gradient--primary">Row options</div>
           </div>
           <div class="col">
-            <div class="text-h6 dialog__spreadsheet-subtitles">Column options</div>
+            <div class="text-h6 dialog__spreadsheet-subtitles gradient--primary">Column options</div>
           </div>
         </div>
         <div class="row">
           <div class="col">
             <p class="text--secondary">Use simple selection</p>
-            <Switch v-model="isUsingSimpleRow" class="mx-auto" :label="label" />
+            <Switch v-model="isUsingSimpleRow" class="mx-auto" :label="label" :state-name="'setSimpleRow'" />
             <p class="text--secondary">Use multiple selection</p>
-            <Switch v-model="isUsingMultipleRow" class="mx-auto" :label="label" />
+            <Switch v-model="isUsingMultipleRow" class="mx-auto" :label="label" :state-name="'setMultipleRow'" />
           </div>
           <div class="col">
             <p class="text--secondary">Use simple selection</p>
-            <Switch v-model="isUsingSimpleCol" class="mx-auto" :label="label" />
+            <Switch v-model="isUsingSimpleCol" class="mx-auto" :label="label" :state-name="'setSimpleCol'" />
             <p class="text--secondary">Use multiple selection</p>
-            <Switch v-model="isUsingMultipleCol" class="mx-auto" :label="label" />
+            <Switch v-model="isUsingMultipleCol" class="mx-auto" :label="label" :state-name="'setMultipleCol'" />
           </div>
         </div>
+        <div class="row">
+          <div class="col">
+            <div class="text-h6 dialog__spreadsheet-subtitles gradient--primary">Header options</div>
+            <div class="row">
+              <div class="col">
+                <p class="text--secondary">Enable sorting</p>
+                <Switch v-model="isUsingSorting" class="mx-auto" :label="label" :state-name="'setSorting'" />
+              </div>
+              <div class="col">
+                <p class="text--secondary">Enable filtering</p>
+                <Switch v-model="isUsingFiltering" class="mx-auto" :label="label" :state-name="'setFiltering'" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex dialog__spreadsheet--actions">
+      <button class="btn btn-text secondary-button ml-auto mr-3" @click="closeDialog">Finish</button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, defineEmits } from 'vue';
+import { defineEmits, reactive } from 'vue';
+import mapState from '../store/mapState';
 import Switch from './Switch.vue';
 
-const label = ref({
+const emit = defineEmits(['close-dialog']);
+
+const {
+  isUsingSimpleRow,
+  isUsingMultipleRow,
+  isUsingSimpleCol,
+  isUsingMultipleCol,
+  isUsingFiltering,
+  isUsingSorting,
+} = mapState();
+
+const label = reactive({
   true: 'Active',
   false: 'Inactive',
 });
-
-const emit = defineEmits(['close-dialog']);
 
 const closeDialog = () => {
   emit('closeDialog', false);
@@ -54,6 +82,7 @@ const closeDialog = () => {
 <style lang="scss">
 @import "@/scss/app.scss";
 @import "@/scss/variables.scss";
+@import "@/scss/colors.scss";
 
 .dialog__overlay {
   z-index: 9999;
@@ -82,7 +111,6 @@ const closeDialog = () => {
 
 .dialog__spreadsheet--title {
   border-radius: 20px 20px 0 0;
-  background: #202020;
   color: white;
   padding: 20px;
   font-size: 20px;
@@ -99,10 +127,18 @@ const closeDialog = () => {
   margin: 10px;
 }
 
+.dialog__spreadsheet--actions {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  padding-block: 10px;
+}
+
 .dialog__spreadsheet-subtitles {
   position: relative;
   width: 100%;
-  background: $secondary;
   color: white;
   box-shadow: 0px 2px 5px #505050;
 }
