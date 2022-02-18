@@ -72,11 +72,13 @@ export default {
     &:first-child {
       transition: all 0.1s ease-in;
       border-radius: 5px 0px 0px 5px;
+      text-align: right;
     }
 
     &:last-child {
       transition: all 0.1s ease-in;
       border-radius: 0px 5px 5px 0px;
+      text-align: left;
     }
 
     &:hover {

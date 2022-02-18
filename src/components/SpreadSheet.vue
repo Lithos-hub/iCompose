@@ -36,9 +36,15 @@
           <td class="table__spreadsheet-index" @click="selectRow(rowIndex + 1)">{{ rowIndex + 1 }}</td>
           <td v-for="(head, colIndex) in headers" :key="'C' + colIndex">
             <input
+              v-if="!Array.isArray(item[head])"
               v-model="item[head]"
               :class="`cell__col-${zeroPad(colIndex + 1, 2)} cell__row-${zeroPad(rowIndex + 1, 2)}`"
             />
+            <select
+            v-else
+            :class="`cell__col-${zeroPad(colIndex + 1, 2)} cell__row-${zeroPad(rowIndex + 1, 2)}`">
+              <option v-for="(option, index) in item[head]" :key="index" :value="option">{{ option }}</option>
+            </select>
           </td>
         </tr>
       </tbody>
@@ -144,11 +150,11 @@ const listenMouseSelectable = () => {
       top: `${rect.top + window.scrollY}px`,
     };
   }
-  const table = document.querySelector('tbody');
+  const tableBody = document.querySelector('tbody');
   let initialCell = '';
   let finalCell = '';
 
-  table.addEventListener('mousedown', ({ target }) => {
+  tableBody.addEventListener('mousedown', ({ target }) => {
     if (target.tagName === 'INPUT') {
       // ? Clean process ? //
       initialCell = '';
@@ -157,7 +163,7 @@ const listenMouseSelectable = () => {
       // ? End clean process ? //
       // ? Selection area creation ? //
       const div = document.createElement('div');
-      table.appendChild(div);
+      tableBody.appendChild(div);
       div.classList.add('drag-div');
       const dragDiv = document.querySelector('.drag-div');
       dragDiv.style.position = 'fixed';
@@ -172,9 +178,9 @@ const listenMouseSelectable = () => {
       }
       // ? End first cell selected assignation ? //
 
-      table.addEventListener('mousemove', (event) => {
+      tableBody.addEventListener('mousemove', (event) => {
       // ? Selection area drawing when mouseover ? //
-        table.style.cursor = 'pointer';
+        tableBody.style.cursor = 'pointer';
         dragDiv.style.border = '2px dashed #5340ff';
         dragDiv.style.width = `${(event.clientX) - dragDiv.offsetLeft}px`;
         dragDiv.style.height = `${(event.clientY) - dragDiv.offsetTop}px`;
@@ -187,29 +193,31 @@ const listenMouseSelectable = () => {
   });
 
   // ? When mouse up => we remove selection area and select the cells ? //
-  table.addEventListener('mouseup', () => {
+  tableBody.addEventListener('mouseup', () => {
     const div = document.querySelector('.drag-div');
-    if (div) div.remove();
-    setTimeout(() => {
+    if (div) {
+      div.remove();
+      setTimeout(() => {
       // eslint-disable-next-line prefer-destructuring
-      initialCol = initialCell.split('cell__col-')[1].split(' ')[0];
-      // eslint-disable-next-line prefer-destructuring
-      initialRow = initialCell.split('cell__row-')[1].split(' ')[0];
-      // eslint-disable-next-line prefer-destructuring
-      finalCol = finalCell.split('cell__col-')[1].split(' ')[0];
-      // eslint-disable-next-line prefer-destructuring
-      finalRow = finalCell.split('cell__row-')[1].split(' ')[0];
-      // eslint-disable-next-line no-plusplus
-      for (let i = initialCol; i <= finalCol; i++) {
+        initialCol = initialCell.split('cell__col-')[1].split(' ')[0];
+        // eslint-disable-next-line prefer-destructuring
+        initialRow = initialCell.split('cell__row-')[1].split(' ')[0];
+        // eslint-disable-next-line prefer-destructuring
+        finalCol = finalCell.split('cell__col-')[1].split(' ')[0];
+        // eslint-disable-next-line prefer-destructuring
+        finalRow = finalCell.split('cell__row-')[1].split(' ')[0];
         // eslint-disable-next-line no-plusplus
-        for (let j = initialRow; j <= finalRow; j++) {
-          const cellsSelected = document.querySelector(
-            `.cell__col-${zeroPad(i, 2)}.cell__row-${zeroPad(j, 2)}`,
-          );
-          cellsSelected.classList.add('cell-selection');
+        for (let i = initialCol; i <= finalCol; i++) {
+        // eslint-disable-next-line no-plusplus
+          for (let j = initialRow; j <= finalRow; j++) {
+            const cellsSelected = document.querySelector(
+              `.cell__col-${zeroPad(i, 2)}.cell__row-${zeroPad(j, 2)}`,
+            );
+            cellsSelected.classList.add('cell-selection');
+          }
         }
-      }
-    }, 50);
+      }, 50);
+    }
   });
 };
 
@@ -358,8 +366,7 @@ tr {
   border: none;
 }
 
-input,
-td {
+input, td, select {
   cursor: pointer;
   text-align: center;
   height: 40px;
@@ -369,6 +376,26 @@ td {
   width: 100%;
   border-right: 1px solid $tertiary;
   border-bottom: 1px solid $tertiary;
+
+  select {
+    height: 41px;
+  }
+}
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-indent: 1px;
+  text-overflow: '';
+
+  &:focus {
+    outline: none;
+  }
+}
+
+option {
+  background: #151515;
+  color: $secondary;
+  padding: 20px;
 }
 
 .table__spreadsheet-header--input {
@@ -462,9 +489,16 @@ td {
   }
 }
 
-.table__spreadsheet-input {
-  padding: 0;
-  margin: 0;
+.table__spreadsheet--selector-menu {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+  display: none;
+  transition: all 0.3s ease-out;
 }
 
 input:not(.table__spreadsheet-header--input):focus {
@@ -479,4 +513,5 @@ input:not(.table__spreadsheet-header--input):focus {
     color: white;
   }
 }
+
 </style>
