@@ -6,10 +6,10 @@ Changelog:
 
 :star: 0.1.0
 
-Spreadsheet Table with the next features:
-    :heavy_check_mark: Options dialog (simple/multiple selections; enable filtering or sorting data from headers).
-    :heavy_check_mark: The data can be downloaded in a Excel file.
-    :heavy_check_mark: Copy&Paste information selecting rows, cols, or a group of cells by area.
+Spreadsheet Table with the next features:<br /><br />
+    :heavy_check_mark: Options dialog (simple/multiple selections; enable filtering or sorting data from headers).<br />
+    :heavy_check_mark: The data can be downloaded in a Excel file.<br />
+    :heavy_check_mark: Copy&Paste information selecting rows, cols, or a group of cells by area.<br />
 
 ## Project setup
 ```
