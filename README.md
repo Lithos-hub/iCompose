@@ -11,6 +11,11 @@ Spreadsheet Table with the next features:<br /><br />
     :heavy_check_mark: The data can be downloaded in a Excel file.<br />
     :heavy_check_mark: Copy&Paste information selecting rows, cols, or a group of cells by area.<br />
 
+:star: 0.2.0
+Simple Data Table with the next features:<br /><br />
+    :heavy_check_mark: Pagination options (rows per page; reset config button and to view rows 10 by 10<br />
+    :heavy_check_mark: Visual effects on hover cells.<br />
+
 ## Project setup
 ```
 npm install
