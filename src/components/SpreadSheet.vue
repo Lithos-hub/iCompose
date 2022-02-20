@@ -1,5 +1,5 @@
 <template>
-  <div class="table__spreadsheet-wrap">
+  <div class="table__spreadsheet-wrapper">
     <DialogOptions v-if="isShowingOptions" @close-dialog="hide" />
     <table class="mx-auto">
       <thead class="table__spreadsheet-header">
@@ -333,7 +333,7 @@ onMounted(() => {
 @import "@/scss/app.scss";
 @import "@/scss/variables.scss";
 
-.table__spreadsheet-wrap {
+.table__spreadsheet-wrapper {
   overflow-y: scroll;
   overflow-x: scroll;
   max-height: 600px;
@@ -409,15 +409,15 @@ option {
   &:focus {
     outline: 1px solid $secondary;
     background: $secondaryDark;
-    caret-color: cyan;
-    color: cyan;
+    caret-color: $primary;
+    color: $primary;
     border-radius: 2px;
     outline-width: 1px;
     outline-offset: 0px;
   }
 
   &:not(:focus) {
-    color: cyan;
+    color: $primary;
   }
 
   &::placeholder {
@@ -461,7 +461,7 @@ option {
   transition: all .3s ease-out;
 
   &:hover {
-    color: cyan;
+    color: $primary;
     background: rgba(56, 51, 100, 0.5);
   }
 }

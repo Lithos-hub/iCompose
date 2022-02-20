@@ -21,7 +21,7 @@ const routes = [
       {
         path: '/dataTable',
         name: 'Data Table',
-        component: () => import('../components/DataTable.vue'),
+        component: () => import('../views/Home-SimpleTable.vue'),
       },
       {
         path: '/card',

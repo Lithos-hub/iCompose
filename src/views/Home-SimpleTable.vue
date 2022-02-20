@@ -1,18 +1,18 @@
 <template>
   <div>
-      <Spreadsheet :data="exampleData" :headers="headers" />
+      <DataTable :data="exampleData" :headers="headers" />
   </div>
 </template>
 
 <script>
-import Spreadsheet from '@/components/Spreadsheet.vue';
-import exampleData from '@/api/SpreadSheetData';
+import DataTable from '@/components/DataTable.vue';
+import exampleData from '@/api/simpleTableData';
 import { reactive } from 'vue';
 
 export default {
   name: 'Home',
   components: {
-    Spreadsheet,
+    DataTable,
   },
   setup() {
     const headers = reactive(Object.keys(exampleData[0]));

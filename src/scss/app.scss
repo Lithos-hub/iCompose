@@ -13,12 +13,24 @@
     margin-inline: auto;
 }
 
+.my-auto {
+    margin-block: auto;
+}
+
 .ml-auto {
     margin-left: auto;
 }
 
 .mr-auto {
     margin-right: auto;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.justify-between {
+    justify-content: space-between;
 }
 
 .text-center {
@@ -107,6 +119,9 @@
 }
 
 .btn-icon {
+    background: none;
+    border: none;
+    color: white;
     &::before {
         transition: all .3s ease-out;
         content: "";

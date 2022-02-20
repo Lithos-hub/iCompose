@@ -30,6 +30,13 @@ export default {
   font-weight: 200;
 }
 
+body {
+  background: linear-gradient(120deg, #161616, #1c2c30);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
 .app-wrapper {
   margin: 0 auto;
     position: absolute;
