@@ -11,8 +11,8 @@ const componentsList = [
   },
   {
     id: 3,
-    title: 'Card',
-    path: 'card',
+    title: 'Cards',
+    path: 'cards',
   },
   {
     id: 4,

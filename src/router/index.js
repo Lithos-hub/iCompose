@@ -24,9 +24,9 @@ const routes = [
         component: () => import('../views/Home-SimpleTable.vue'),
       },
       {
-        path: '/card',
-        name: 'Card',
-        component: () => import('../components/Card.vue'),
+        path: '/cards',
+        name: 'Cards',
+        component: () => import('../views/Home-Cards.vue'),
       },
       {
         path: '/smartForm',
