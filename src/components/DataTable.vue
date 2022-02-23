@@ -22,7 +22,7 @@
           <button class="table__simpleTable--pagination-button" @click="resetTable">Reset</button>
       </div>
       <div class="d-flex">
-        <div>
+        <div class="my-auto">
         <p>Showing: {{ firstRow }}-{{ lastRow }} of {{ totalRows }} rows</p>
         </div>
           <div class="my-auto ml-3">

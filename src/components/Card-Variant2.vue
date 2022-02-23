@@ -1,21 +1,21 @@
 <template>
-  <div class="card-variant2__wrapper">
-    <div class="card-variant2__image">
+  <div class="card__wrapper">
+    <div class="card__image">
       <img src="../assets/img/image.jpg" />
     </div>
-    <div class="card-variant2__header">
-      <div class="card-variant2__header--title">My title</div>
-      <div class="card-variant2__header--subtitle">My subtitle</div>
+    <div class="card__header">
+      <div class="card__header--title">Card title</div>
+      <div class="card__header--subtitle">Card subtitle</div>
     </div>
-    <div class="card-variant2__body">
-      <div class="card-variant2__body--text">
+    <div class="card__body">
+      <div class="card__body--text">
         <div id="body-text">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore officiis autem sequi recusandae similique maiores voluptatem quae, nam
           dignissimos corrupti cumque, eaque natus temporibus veritatis quis incidunt facere officia. Lorem ipsum dolor sit amet
         </div>
       </div>
     </div>
-    <div class="card-variant2__footer">
+    <div class="card__footer">
       <button class="card__animated-btn" @click="createFXElement">
         Action button
         <span id="ripple-element" class="ripple"></span>
@@ -54,7 +54,7 @@ onMounted(() => {
 @import "@/scss/app.scss";
 @import "@/scss/variables.scss";
 
-.card-variant2__wrapper {
+.card__wrapper {
   position: relative;
   background: white;
   border-radius: 20px;
@@ -62,31 +62,31 @@ onMounted(() => {
   color: #303030;
 }
 
-.card-variant2__image,
+.card__image,
 img {
   position: absolute;
   top: 0;
   left: 0;
-  width: auto;
+  width: 100%;
   height: 100%;
   border-radius: 20px 0px 0px 20px;
 }
 
-.card-variant2__header {
+.card__header {
   text-align: right;
   padding-right: 1em;
   color: #3892a4;
 }
 
-.card-variant2__header--title {
+.card__header--title {
   text-shadow: 1px 2px 2px #b0add4;
 }
 
-.card-variant2__header--subtitle {
+.card__header--subtitle {
   color: #505050;
 }
 
-.card-variant2__body {
+.card__body {
   padding-bottom: 2em;
 }
 
@@ -97,7 +97,7 @@ img {
   color: #303030;
 }
 
-.card-variant2__footer {
+.card__footer {
   position: absolute;
   margin-top: 2em;
   bottom: 0;
@@ -159,7 +159,7 @@ img {
 
 // ******* MOBILE RESPONSIVE ******* //
 @media only screen and (min-width: 360px) {
-  .card-variant2__image,
+  .card__image,
   img {
     position: relative;
     height: auto;
@@ -169,21 +169,21 @@ img {
     border-radius: 20px 20px 0px 0px;
   }
 
-  .card-variant2__header {
+  .card__header {
     text-align: center;
     padding-left: 0em;
     padding-right: 0em;
   }
 
-  .card-variant2__header--title {
+  .card__header--title {
     font-size: 25px;
   }
 
-  .card-variant2__header--subtitle {
+  .card__header--subtitle {
     font-size: 8px;
   }
 
-  .card-variant2__body {
+  .card__body {
     font-size: 12px;
     padding-bottom: 2em;
   }
@@ -194,7 +194,7 @@ img {
 }
 // ******* LAPTOP RESPONSIVE ******* //
 @media only screen and (min-width: 1366px) {
-  .card-variant2__image,
+  .card__image,
   img {
     position: relative;
     height: auto;
@@ -204,21 +204,21 @@ img {
     border-radius: 20px 20px 0px 0px;
   }
 
-  .card-variant2__header {
+  .card__header {
     text-align: left;
     padding-left: 1em;
     padding-right: 0em;
   }
 
-  .card-variant2__header--title {
+  .card__header--title {
     font-size: 30px;
   }
 
-  .card-variant2__header--subtitle {
+  .card__header--subtitle {
     font-size: 10px;
   }
 
-  .card-variant2__body {
+  .card__body {
     font-size: 15px;
     padding-bottom: 2em;
   }
@@ -230,7 +230,7 @@ img {
 
 // ******* DESKTOP RESPONSIVE ******* //
 @media only screen and (min-width: 1920px) {
-  .card-variant2__image,
+  .card__image,
   img {
     position: absolute;
     top: 0;
@@ -242,21 +242,21 @@ img {
     border-radius: 20px 0px 0px 20px;
   }
 
-  .card-variant2__header {
+  .card__header {
     text-align: right;
     padding-left: 0em;
     padding-right: 1em;
   }
 
-  .card-variant2__header--title {
+  .card__header--title {
     font-size: 40px;
   }
 
-  .card-variant2__header--subtitle {
+  .card__header--subtitle {
     font-size: 13px;
   }
 
-  .card-variant2__body {
+  .card__body {
     font-size: 16px;
     padding-bottom: 2em;
   }
