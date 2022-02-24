@@ -3,6 +3,9 @@
     <h2 id="app-title">iCompose</h2>
     <router-link to="/home">Home</router-link> |
     <router-link to="/about">About</router-link>
+    <a href="https://github.com/Lithos-hub/iCompose" target="_blank">
+      <mdicon class="icon__github" name="github" :width="30" :height="30"></mdicon>
+    </a>
   </div>
 </template>
 
@@ -34,6 +37,15 @@ export default {
       color: $primary;
     }
   }
+}
+
+.icon__github {
+  position: fixed;
+  top: 1em;
+  right: 3.8em;
+  min-width: 100px;
+  max-width: 100px;
+  color: $primary;
 }
 
 </style>
