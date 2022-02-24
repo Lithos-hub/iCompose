@@ -38,11 +38,11 @@
             <input
               v-if="!Array.isArray(item[head])"
               v-model="item[head]"
-              :class="`cell__col-${zeroPad(colIndex + 1, 2)} cell__row-${zeroPad(rowIndex + 1, 2)}`"
+              :class="`cell__column-${zeroPad(colIndex + 1, 2)} cell__row-${zeroPad(rowIndex + 1, 2)}`"
             />
             <select
             v-else
-            :class="`cell__col-${zeroPad(colIndex + 1, 2)} cell__row-${zeroPad(rowIndex + 1, 2)}`">
+            :class="`cell__column-${zeroPad(colIndex + 1, 2)} cell__row-${zeroPad(rowIndex + 1, 2)}`">
               <option v-for="(option, index) in item[head]" :key="index" :value="option">{{ option }}</option>
             </select>
           </td>
@@ -199,11 +199,11 @@ const listenMouseSelectable = () => {
       div.remove();
       setTimeout(() => {
       // eslint-disable-next-line prefer-destructuring
-        initialCol = initialCell.split('cell__col-')[1].split(' ')[0];
+        initialCol = initialCell.split('cell__column-')[1].split(' ')[0];
         // eslint-disable-next-line prefer-destructuring
         initialRow = initialCell.split('cell__row-')[1].split(' ')[0];
         // eslint-disable-next-line prefer-destructuring
-        finalCol = finalCell.split('cell__col-')[1].split(' ')[0];
+        finalCol = finalCell.split('cell__column-')[1].split(' ')[0];
         // eslint-disable-next-line prefer-destructuring
         finalRow = finalCell.split('cell__row-')[1].split(' ')[0];
         // eslint-disable-next-line no-plusplus
@@ -211,7 +211,7 @@ const listenMouseSelectable = () => {
         // eslint-disable-next-line no-plusplus
           for (let j = initialRow; j <= finalRow; j++) {
             const cellsSelected = document.querySelector(
-              `.cell__col-${zeroPad(i, 2)}.cell__row-${zeroPad(j, 2)}`,
+              `.cell__column-${zeroPad(i, 2)}.cell__row-${zeroPad(j, 2)}`,
             );
             cellsSelected.classList.add('cell-selection');
           }
@@ -254,7 +254,7 @@ const selectRow = (index) => {
 
 const selectColumn = (index) => {
   cleanSelections();
-  const selectedCol = document.querySelectorAll(`.cell__col-${zeroPad(index, 2)}`);
+  const selectedCol = document.querySelectorAll(`.cell__column-${zeroPad(index, 2)}`);
   if (isUsingSimpleCol.value) {
     selectedCol.forEach((col) => {
       col.classList.add('cell-selection');
