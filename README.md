@@ -16,6 +16,10 @@ Simple Data Table with the next features:<br /><br />
     :heavy_check_mark: Pagination options (rows per page; reset config button and to view rows 10 by 10<br />
     :heavy_check_mark: Visual effects on hover cells.<br />
 
+:star: 0.3.0
+Cards:<br /><br />
+    :heavy_check_mark: Added custom cards components<br />
+
 ## Project setup
 ```
 npm install
