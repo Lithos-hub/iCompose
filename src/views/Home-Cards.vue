@@ -1,24 +1,24 @@
 <template>
 <div class="home-cards">
   <div class="row">
-    <div class="col">
+    <div class="col-6">
       <CardVariant1 />
     </div>
-    <div class="col">
+    <div class="col-6">
       <CardVariant2 />
     </div>
   </div>
   <div class="row">
-    <div class="col">
+    <div class="col-3">
       <CardVariant3 class="mx-auto" />
     </div>
-    <div class="col">
+    <div class="col-3">
       <CardVariant4 class="mx-auto" />
     </div>
-    <div class="col">
+    <div class="col-3">
       <CardVariant5 class="mx-auto" />
     </div>
-    <div class="col">
+    <div class="col-3">
       <CardVariant6 class="mx-auto" />
     </div>
   </div>
@@ -50,7 +50,6 @@ export default {
 
 .row {
   background: rgb(255, 255, 255);
-  margin-inline: 10em;
 }
 
 .home-cards {

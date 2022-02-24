@@ -30,7 +30,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col">
+        <div class="col-6 no-borders">
           <div class="card__timeline--wrapper">
             <div class="timeline__title">Timeline title</div>
             <div class="card__timeline--line">
@@ -53,7 +53,7 @@
             </div>
           </div>
         </div>
-        <div class="col">
+        <div class="col-6 no-borders">
           <div class="card__select--wrapper">
             <div class="select__wrapper d-flex justify-between">
               <div class="select__title">Show info</div>
@@ -89,7 +89,7 @@ const showSelectOptions = () => {
     selectContent = document.querySelector('.select__content');
     selectContent.style.transition = 'all .3s ease-out';
     selectContent.style.opacity = 0;
-    selectContent.style.transform = 'translateY(-100%)';
+    selectContent.style.transform = 'translateY(100%)';
     setTimeout(() => {
       isShowingOptions.value = false;
     }, 300);
@@ -188,6 +188,10 @@ img {
   &:hover {
     filter: brightness(1.5);
   }
+}
+
+.card__body {
+  padding: 10px;
 }
 
 .card__timeline--wrapper {
