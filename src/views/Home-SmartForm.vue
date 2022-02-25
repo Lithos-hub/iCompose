@@ -15,3 +15,6 @@ import FormTable from '@/components/Form-Table.vue';
 import Form from '@/components/Form.vue';
 
 </script>
+
+<style scoped>
+</style>
