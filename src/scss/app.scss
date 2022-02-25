@@ -7,6 +7,10 @@
 
 // * Position * //
 
+.relative {
+  position: relative;
+}
+
 .centered {
   position: absolute;
   top: 50%;
@@ -36,6 +40,10 @@
 
 .justify-between {
   justify-content: space-between;
+}
+
+.justify-start {
+  justify-content: flex-start;
 }
 
 .text-center {
@@ -189,6 +197,10 @@
 
 .no-borders {
   border: none;
+}
+
+.no-bg {
+  background: none;
 }
 
 // * Animations * //

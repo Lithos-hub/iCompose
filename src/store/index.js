@@ -8,6 +8,8 @@ export default createStore({
     isUsingMultipleCol: false,
     isUsingFiltering: false,
     isUsingSorting: true,
+    formCategory: 'Commerce',
+    formObject: {},
   },
   mutations: {
     setSimpleRow(state) {
@@ -63,6 +65,12 @@ export default createStore({
         state.isUsingFiltering = true;
         state.isUsingSorting = false;
       }
+    },
+    setFormCategory(state, category) {
+      state.formCategory = category;
+    },
+    setFormObject(state, payload) {
+      state.formObject = payload;
     },
   },
   actions: {

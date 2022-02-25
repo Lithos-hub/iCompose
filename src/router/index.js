@@ -31,7 +31,7 @@ const routes = [
       {
         path: '/smartForm',
         name: 'SmartForm',
-        component: () => import('../components/SmartForm.vue'),
+        component: () => import('../views/Home-SmartForm.vue'),
       },
     ],
   },
