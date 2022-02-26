@@ -20,7 +20,7 @@ Simple Data Table with the next features:<br /><br />
 Cards:<br /><br />
     :heavy_check_mark: Added custom cards components<br />
 
-:star: 0.5.0
+:star: 0.4.0
 Smart form:<br /><br />
     :heavy_check_mark: Added smart form (the fields are generated depending on the data type) <br />
 
