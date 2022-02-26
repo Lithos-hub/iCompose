@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Spreadsheet from '@/components/Spreadsheet.vue';
+import Spreadsheet from '@/components/SpreadSheet.vue';
 import exampleData from '@/api/SpreadSheetData';
 import { reactive } from 'vue';
 
