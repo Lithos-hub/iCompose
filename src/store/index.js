@@ -2,6 +2,7 @@ import { createStore } from 'vuex';
 
 export default createStore({
   state: {
+    isShowingTutorial: false,
     isUsingSimpleRow: true,
     isUsingMultipleRow: false,
     isUsingSimpleCol: true,
@@ -11,7 +12,13 @@ export default createStore({
     formCategory: 'Commerce',
     formObject: {},
   },
+  getters: {
+    isShowingTutorial: (state) => state.isShowingTutorial,
+  },
   mutations: {
+    toggleTutorial(state) {
+      state.isShowingTutorial = !state.isShowingTutorial;
+    },
     setSimpleRow(state) {
       if (state.isUsingMultipleRow) {
         state.isUsingSimpleRow = true;

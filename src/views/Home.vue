@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <TutorialButton id="tutorial__button" />
     <h1>Select and show a component</h1>
     <TabMenu :data="componentsList"/>
     <p class="centered" v-if="loading">Loading component...</p>
@@ -14,11 +15,13 @@ import { computed } from 'vue';
 import { useStore } from 'vuex';
 import componentsList from '../api/componentsList';
 import TabMenu from '../components/TabMenu.vue';
+import TutorialButton from '../components/TutorialButton.vue';
 
 export default {
   name: 'Home',
   components: {
     TabMenu,
+    TutorialButton,
   },
   setup() {
     const store = useStore();
@@ -38,6 +41,13 @@ export default {
 .main-container {
   margin-top: 5em;
   margin-inline: 5em;
+}
+
+#tutorial__button {
+  position: fixed;
+  top: 20vh;
+  right: 10vh;
+  z-index: 999999;
 }
 
 </style>

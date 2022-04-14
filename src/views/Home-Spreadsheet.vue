@@ -1,29 +1,18 @@
 <template>
   <div>
-      <Spreadsheet :data="exampleData" :headers="headers" />
+    <TutorialSpread v-if="showTutorial" />
+    <Spreadsheet :data="exampleData" :headers="headers" />
   </div>
 </template>
 
-<script>
+<script setup>
 import Spreadsheet from '@/components/SpreadSheet.vue';
+import TutorialSpread from '@/components/TutorialSpread.vue';
 import exampleData from '@/api/SpreadSheetData';
-import { reactive } from 'vue';
+import { computed, reactive } from 'vue';
+import { useStore } from 'vuex';
 
-export default {
-  name: 'Home',
-  components: {
-    Spreadsheet,
-  },
-  setup() {
-    const headers = reactive(Object.keys(exampleData[0]));
-    return {
-      headers,
-      exampleData,
-    };
-  },
-};
+const headers = reactive(Object.keys(exampleData[0]));
+const store = useStore();
+const showTutorial = computed(() => store.state.isShowingTutorial);
 </script>
-
-<style>
-
-</style>
