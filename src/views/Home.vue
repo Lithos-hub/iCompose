@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <TutorialButton id="tutorial__button" />
+    <TutorialButton v-if="allowedRoutes" id="tutorial__button" />
     <h1>Select and show a component</h1>
     <TabMenu :data="componentsList"/>
     <p class="centered" v-if="loading">Loading component...</p>
@@ -13,6 +13,7 @@
 <script>
 import { computed } from 'vue';
 import { useStore } from 'vuex';
+import { useRoute } from 'vue-router';
 import componentsList from '../api/componentsList';
 import TabMenu from '../components/TabMenu.vue';
 import TutorialButton from '../components/TutorialButton.vue';
@@ -25,10 +26,13 @@ export default {
   },
   setup() {
     const store = useStore();
+    const route = useRoute();
     const loading = computed(() => store.state.loading);
+    const allowedRoutes = computed(() => route.path === '/spreadsheet');
     return {
       componentsList,
       loading,
+      allowedRoutes,
     };
   },
 };
