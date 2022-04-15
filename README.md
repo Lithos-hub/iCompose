@@ -25,7 +25,7 @@ Smart form:<br /><br />
     :heavy_check_mark: Added smart form (the fields are generated depending on the data type) <br />
 
 :star: 0.5.0
-Smart form:<br /><br />
+Spreadsheet tutorial:<br /><br />
     :heavy_check_mark: Added a tutorial on Spreadsheet table view <br />
 
 ## Project setup
